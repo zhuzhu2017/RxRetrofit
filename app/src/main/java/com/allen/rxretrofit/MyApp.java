@@ -13,8 +13,7 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        RxRetrofitApp.init(this, true);
-        RxRetrofitApp.setRequestSuccessCode(Constants.HTTP_RESUCCESS);
+        RxRetrofitApp.init(this, Constants.HTTP_RESUCCESS);
         RxRetrofitApp.setCacheDBName(Constants.CACHE_DB_NAME);
     }
 }

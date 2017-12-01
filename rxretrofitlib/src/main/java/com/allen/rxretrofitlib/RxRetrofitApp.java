@@ -19,12 +19,17 @@ public class RxRetrofitApp {
     private static String cacheDBName;
 
     public static void init(Application app) {
-        setApplication(app);
+        init(app, REQUEST_SUCCESS, false);
     }
 
-    public static void init(Application app, boolean debug) {
+    public static void init(Application app, int successCode) {
+        init(app, successCode, false);
+    }
+
+    public static void init(Application app, int successCode, boolean isDebug) {
         setApplication(app);
-        setDebug(debug);
+        setDebug(isDebug);
+        setRequestSuccessCode(successCode);
     }
 
     public static Application getApplication() {
@@ -47,7 +52,7 @@ public class RxRetrofitApp {
         return REQUEST_SUCCESS;
     }
 
-    public static void setRequestSuccessCode(int requestSuccess) {
+    private static void setRequestSuccessCode(int requestSuccess) {
         REQUEST_SUCCESS = requestSuccess;
     }
 
