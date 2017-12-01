@@ -1,22 +1,21 @@
 package com.allen.rxretrofitlib.base;
 
-import com.allen.rxretrofitlib.exception.HttpResultException;
 import com.allen.rxretrofitlib.listener.HttpOnNextListener;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.lang.ref.SoftReference;
 
+import okhttp3.Interceptor;
 import retrofit2.Retrofit;
 import rx.Observable;
-import rx.functions.Func1;
 
 /**
- * api基类，所有调用的api均需要集成该父类
+ * api基类
  * Created by allen on 2017/11/30.
  */
 
-public abstract class BaseApi<T> implements Func1<BaseResultEntity<T>, T> {
+public abstract class BaseApi {
     /*rx与activity绑定，管理生命周期，软引用防止内存泄漏*/
     private SoftReference<RxAppCompatActivity> rxAppCompatActivity;
     /*rx与Fragment绑定，管理生命周期，软引用防止内存泄露*/
@@ -47,6 +46,10 @@ public abstract class BaseApi<T> implements Func1<BaseResultEntity<T>, T> {
     private int retryIncreaseDelay = 10;
     /*缓存URL--可手动设置*/
     private String cacheUrl;
+    /*获取网络请求来源*/
+    private String requestSource;
+    /*设置网络请求拦截器*/
+    private Interceptor interceptor;
 
     /**
      * 构造函数--RxAppCompatActivity
@@ -193,12 +196,28 @@ public abstract class BaseApi<T> implements Func1<BaseResultEntity<T>, T> {
         this.retryIncreaseDelay = retryIncreaseDelay;
     }
 
+    public String getRequestSource() {
+        return requestSource;
+    }
+
+    public void setRequestSource(String requestSource) {
+        this.requestSource = requestSource;
+    }
+
     public String getCacheUrl() {
         return cacheUrl;
     }
 
     public void setCacheUrl(String cacheUrl) {
         this.cacheUrl = cacheUrl;
+    }
+
+    public Interceptor getInterceptor() {
+        return interceptor;
+    }
+
+    public void setInterceptor(Interceptor interceptor) {
+        this.interceptor = interceptor;
     }
 
     /**
@@ -221,17 +240,21 @@ public abstract class BaseApi<T> implements Func1<BaseResultEntity<T>, T> {
      */
     public abstract Observable getObservable(Retrofit retrofit);
 
-    /**
-     * 返回结果的统一处理（处理异常信息）
-     *
-     * @param tBaseResultEntity 统一格式返回数据
-     * @return 返回的数据对象
-     */
-    @Override
-    public T call(BaseResultEntity<T> tBaseResultEntity) {
-        if (tBaseResultEntity.getCode() != 1100) {
-            throw new HttpResultException(tBaseResultEntity.getMsg());
-        }
-        return tBaseResultEntity.getData();
-    }
+//    /**
+//     * 返回结果的统一处理（处理异常信息）
+//     *
+//     * @param t 返回数据
+//     * @return 返回的数据对象
+//     */
+//    @Override
+//    public T call(T t) {
+//        if (t instanceof BaseResultEntity) {
+//            BaseResultEntity entity = (BaseResultEntity) t;
+//            if (entity.getCode() != RxRetrofitApp.REQUEST_SUCCESS) {
+//                throw new HttpResultException(entity.getMsg());
+//            }
+//            return (T) entity;
+//        }
+//        return t;
+//    }
 }

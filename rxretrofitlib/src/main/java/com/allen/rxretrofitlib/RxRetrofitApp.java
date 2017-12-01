@@ -13,6 +13,10 @@ public class RxRetrofitApp {
     private static Application application;
     /*设置是否是调试模式*/
     private static boolean debug;
+    /*联网请求成功状态码*/
+    public static int REQUEST_SUCCESS = 1100;
+    /*缓存数据库名称*/
+    private static String cacheDBName;
 
     public static void init(Application app) {
         setApplication(app);
@@ -27,7 +31,7 @@ public class RxRetrofitApp {
         return application;
     }
 
-    public static void setApplication(Application application) {
+    private static void setApplication(Application application) {
         RxRetrofitApp.application = application;
     }
 
@@ -35,7 +39,23 @@ public class RxRetrofitApp {
         return debug;
     }
 
-    public static void setDebug(boolean debug) {
+    private static void setDebug(boolean debug) {
         RxRetrofitApp.debug = debug;
+    }
+
+    public static int getRequestSuccessCode() {
+        return REQUEST_SUCCESS;
+    }
+
+    public static void setRequestSuccessCode(int requestSuccess) {
+        REQUEST_SUCCESS = requestSuccess;
+    }
+
+    public static String getCacheDBName() {
+        return cacheDBName;
+    }
+
+    public static void setCacheDBName(String cacheDBName) {
+        RxRetrofitApp.cacheDBName = cacheDBName;
     }
 }
