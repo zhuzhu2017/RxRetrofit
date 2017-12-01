@@ -18,4 +18,8 @@ public class RxConstants {
      * 缓存数据库名称
      */
     public static final String CACHE_DB_NAME = "cache_db";
+    /**
+     * 编码格式
+     */
+    public static final String CHARSET = "UTF-8";
 }

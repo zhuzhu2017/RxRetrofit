@@ -52,7 +52,7 @@ public class HttpManager {
         Interceptor interceptor = baseApi.getInterceptor();
         if (interceptor != null) builder.addInterceptor(interceptor);
         //添加缓存处理拦截器
-        builder.addInterceptor(new CookieInterceptor(baseApi.isCacheNeeded(), baseApi.getUrl()));
+        builder.addInterceptor(new CookieInterceptor(baseApi.isCacheNeeded(), baseApi.getUrl(),baseApi.getCharset()));
         String requestSource = baseApi.getRequestSource();
         if (TextUtils.equals(requestSource, RxConstants.TYPE_ACTIVITY)) {
 

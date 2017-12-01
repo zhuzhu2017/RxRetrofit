@@ -1,5 +1,6 @@
 package com.allen.rxretrofitlib.base;
 
+import com.allen.rxretrofitlib.RxConstants;
 import com.allen.rxretrofitlib.listener.HttpOnNextListener;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.trello.rxlifecycle.components.support.RxFragment;
@@ -50,6 +51,8 @@ public abstract class BaseApi {
     private String requestSource;
     /*设置网络请求拦截器*/
     private Interceptor interceptor;
+    /*编码格式*/
+    private String charset;
 
     /**
      * 构造函数--RxAppCompatActivity
@@ -64,6 +67,8 @@ public abstract class BaseApi {
         setShowProgress(true);
         //默认需要缓存
         setCacheNeeded(true);
+        //默认UTF-8编码
+        setCharset(RxConstants.CHARSET);
     }
 
     /**
@@ -79,6 +84,8 @@ public abstract class BaseApi {
         setShowProgress(true);
         //默认需要缓存
         setCacheNeeded(true);
+        //默认UTF-8编码
+        setCharset(RxConstants.CHARSET);
     }
 
     public RxAppCompatActivity getRxAppCompatActivity() {
@@ -218,6 +225,14 @@ public abstract class BaseApi {
 
     public void setInterceptor(Interceptor interceptor) {
         this.interceptor = interceptor;
+    }
+
+    public String getCharset() {
+        return charset;
+    }
+
+    public void setCharset(String charset) {
+        this.charset = charset;
     }
 
     /**
