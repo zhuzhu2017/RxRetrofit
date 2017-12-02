@@ -1,5 +1,7 @@
 package com.allen.rxretrofitlib.base;
 
+import android.app.AlertDialog;
+
 import com.allen.rxretrofitlib.RxConstants;
 import com.allen.rxretrofitlib.listener.HttpOnNextListener;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
@@ -53,6 +55,8 @@ public abstract class BaseApi {
     private Interceptor interceptor;
     /*编码格式*/
     private String charset;
+    /*自定义加载框*/
+    private AlertDialog dialog;
 
     /**
      * 构造函数--RxAppCompatActivity
@@ -235,6 +239,14 @@ public abstract class BaseApi {
         this.charset = charset;
     }
 
+    public AlertDialog getDialog() {
+        return dialog;
+    }
+
+    public void setDialog(AlertDialog dialog) {
+        this.dialog = dialog;
+    }
+
     /**
      * 在没有手动设置缓存URL的情况下，简单拼接
      *
@@ -254,22 +266,4 @@ public abstract class BaseApi {
      * @return Observable对象
      */
     public abstract Observable getObservable(Retrofit retrofit);
-
-//    /**
-//     * 返回结果的统一处理（处理异常信息）
-//     *
-//     * @param t 返回数据
-//     * @return 返回的数据对象
-//     */
-//    @Override
-//    public T call(T t) {
-//        if (t instanceof BaseResultEntity) {
-//            BaseResultEntity entity = (BaseResultEntity) t;
-//            if (entity.getCode() != RxRetrofitApp.REQUEST_SUCCESS) {
-//                throw new HttpResultException(entity.getMsg());
-//            }
-//            return (T) entity;
-//        }
-//        return t;
-//    }
 }
