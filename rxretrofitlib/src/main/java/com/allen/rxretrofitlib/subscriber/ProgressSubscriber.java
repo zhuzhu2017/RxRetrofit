@@ -39,7 +39,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
     public ProgressSubscriber(BaseApi baseApi, RxAppCompatActivity activity) {
         this.baseApi = baseApi;
         this.showProgress = baseApi.isShowProgress();
-        this.listener = new SoftReference<>(baseApi.getListener());
+        this.listener = baseApi.getListener();
         this.mActivity = new SoftReference<>(activity);
         if (baseApi.getDialog() != null) {
             this.dialog = baseApi.getDialog();
@@ -53,7 +53,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
     public ProgressSubscriber(BaseApi baseApi, RxFragment fragment) {
         this.baseApi = baseApi;
         this.showProgress = baseApi.isShowProgress();
-        this.listener = new SoftReference<>(baseApi.getListener());
+        this.listener = baseApi.getListener();
         this.mFragment = new SoftReference<>(fragment);
         if (baseApi.getDialog() != null) {
             this.dialog = baseApi.getDialog();

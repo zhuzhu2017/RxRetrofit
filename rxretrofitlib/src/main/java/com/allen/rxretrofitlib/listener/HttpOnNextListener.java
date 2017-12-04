@@ -1,6 +1,6 @@
 package com.allen.rxretrofitlib.listener;
 
-import java.util.Observable;
+import rx.Observable;
 
 /**
  * 网络请求回调监听

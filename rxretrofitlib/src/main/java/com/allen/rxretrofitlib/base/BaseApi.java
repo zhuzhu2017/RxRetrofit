@@ -57,6 +57,8 @@ public abstract class BaseApi {
     private String charset;
     /*自定义加载框*/
     private AlertDialog dialog;
+    /*返回json格式数据*/
+    private boolean isReturnJson;
 
     /**
      * 构造函数--RxAppCompatActivity
@@ -110,9 +112,8 @@ public abstract class BaseApi {
         this.rxFragment = new SoftReference<>(rxFragment);
     }
 
-    public HttpOnNextListener getListener() {
-        if (listener == null) return null;
-        return listener.get();
+    public SoftReference<HttpOnNextListener> getListener() {
+        return listener;
     }
 
     public void setListener(HttpOnNextListener listener) {
@@ -245,6 +246,14 @@ public abstract class BaseApi {
 
     public void setDialog(AlertDialog dialog) {
         this.dialog = dialog;
+    }
+
+    public boolean isReturnJson() {
+        return isReturnJson;
+    }
+
+    public void setReturnJson(boolean returnJson) {
+        isReturnJson = returnJson;
     }
 
     /**

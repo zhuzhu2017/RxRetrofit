@@ -15,6 +15,7 @@ import com.trello.rxlifecycle.LifecycleTransformer;
 import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.android.FragmentEvent;
 
+import java.lang.ref.SoftReference;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -53,10 +54,11 @@ public class HttpManager {
         return INSTANCE;
     }
 
+
     /**
      * 网络请求
      *
-     * @param baseApi 网络请求设置和API参数
+     * @param baseApi 网络请求的设置和api参数
      */
     public void httpRequest(BaseApi baseApi) {
         if (baseApi == null) return;
@@ -68,10 +70,10 @@ public class HttpManager {
         if (interceptor != null) builder.addInterceptor(interceptor);
         //添加缓存处理拦截器
         builder.addInterceptor(new CookieInterceptor(baseApi.isCacheNeeded(), baseApi.getUrl(), baseApi.getCharset()));
-        //获取网络请求页面来源
-        String requestSource = baseApi.getRequestSource();
+        //根据条件创建Retrofit对象
+        boolean returnJson = baseApi.isReturnJson();
         Retrofit retrofit;
-        if (baseApi instanceof BaseJsonReturnAPi) {
+        if (returnJson) {
             //创建Retrofit对象
             retrofit = new Retrofit.Builder()
                     .client(builder.build())
@@ -88,32 +90,27 @@ public class HttpManager {
                     .baseUrl(baseApi.getBaseUrl())
                     .build();
         }
-        //RxJava处理
+        //网络请求来源
         ProgressSubscriber subscriber;
         Observable observable;
+        String requestSource = baseApi.getRequestSource();
         if (TextUtils.equals(requestSource, RxConstants.TYPE_ACTIVITY)) {
             subscriber = new ProgressSubscriber(baseApi, baseApi.getRxAppCompatActivity());
-            if (baseApi instanceof BaseJsonReturnAPi) {
-                observable = getObservable(true, baseApi, retrofit,
-                        baseApi.getRxAppCompatActivity().bindUntilEvent(ActivityEvent.PAUSE));
-            } else {
-                observable = getObservable(false, baseApi, retrofit,
-                        baseApi.getRxAppCompatActivity().bindUntilEvent(ActivityEvent.PAUSE));
-            }
-        } else {
+            observable = getObservable(returnJson, baseApi, retrofit,
+                    baseApi.getRxAppCompatActivity().bindUntilEvent(ActivityEvent.PAUSE));
+        } else if (TextUtils.equals(requestSource, RxConstants.TYPE_FRAGMENT)) {
             subscriber = new ProgressSubscriber(baseApi, baseApi.getRxFragment());
-            if (baseApi instanceof BaseJsonReturnAPi) {
-                observable = getObservable(true, baseApi, retrofit,
-                        baseApi.getRxFragment().bindUntilEvent(FragmentEvent.PAUSE));
-            } else {
-                observable = getObservable(false, baseApi, retrofit,
-                        baseApi.getRxFragment().bindUntilEvent(FragmentEvent.PAUSE));
-            }
+            observable = getObservable(returnJson, baseApi, retrofit,
+                    baseApi.getRxFragment().bindUntilEvent(FragmentEvent.PAUSE));
+        } else {
+            subscriber = new ProgressSubscriber(baseApi, baseApi.getRxAppCompatActivity());
+            observable = getObservable(returnJson, baseApi, retrofit,
+                    baseApi.getRxAppCompatActivity().bindUntilEvent(ActivityEvent.PAUSE));
         }
         //链接式对象返回
-        HttpOnNextListener listener = baseApi.getListener();
-        if (listener != null) {
-            listener.onNext(observable);
+        SoftReference<HttpOnNextListener> httpOnNextListener = baseApi.getListener();
+        if (httpOnNextListener != null && httpOnNextListener.get() != null) {
+            httpOnNextListener.get().onNext(observable);
         }
         observable.subscribe(subscriber);
     }
