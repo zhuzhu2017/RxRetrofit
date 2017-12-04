@@ -1,6 +1,7 @@
 package com.allen.rxretrofitlib.subscriber;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,7 +35,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
     //请求的封装数据
     private BaseApi baseApi;
     //加载框
-    private AlertDialog dialog;
+    private Dialog dialog;
 
     public ProgressSubscriber(BaseApi baseApi, RxAppCompatActivity activity) {
         this.baseApi = baseApi;

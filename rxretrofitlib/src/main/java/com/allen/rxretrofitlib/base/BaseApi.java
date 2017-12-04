@@ -1,6 +1,7 @@
 package com.allen.rxretrofitlib.base;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 
 import com.allen.rxretrofitlib.RxConstants;
 import com.allen.rxretrofitlib.RxRetrofitApp;
@@ -57,7 +58,7 @@ public abstract class BaseApi {
     /*编码格式——默认UTF-8*/
     private String charset;
     /*自定义加载框——不设置的话默认系统加载框*/
-    private AlertDialog dialog;
+    private Dialog dialog;
     /*返回json格式数据——不设置的话，默认BaseResultEntity返回*/
     private boolean isReturnJson;
     /*网络请求错误码——供客户端自定义错误信息处理*/
@@ -255,11 +256,11 @@ public abstract class BaseApi {
         this.charset = charset;
     }
 
-    public AlertDialog getDialog() {
+    public Dialog getDialog() {
         return dialog;
     }
 
-    public void setDialog(AlertDialog dialog) {
+    public void setDialog(Dialog dialog) {
         this.dialog = dialog;
     }
 

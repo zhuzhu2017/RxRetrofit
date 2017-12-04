@@ -1,6 +1,8 @@
 package com.allen.rxretrofit.api;
 
 import com.allen.rxretrofit.HttpPostService;
+import com.allen.rxretrofit.R;
+import com.allen.rxretrofit.common.MyDialog;
 import com.allen.rxretrofitlib.base.BaseEntityReturnApi;
 import com.allen.rxretrofitlib.listener.HttpOnNextListener;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
