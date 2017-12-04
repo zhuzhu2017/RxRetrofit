@@ -3,6 +3,7 @@ package com.allen.rxretrofit.api;
 import com.allen.rxretrofit.HttpPostService;
 import com.allen.rxretrofit.R;
 import com.allen.rxretrofit.common.MyDialog;
+import com.allen.rxretrofit.interceptor.RetrofitInterceptor;
 import com.allen.rxretrofitlib.base.BaseEntityReturnApi;
 import com.allen.rxretrofitlib.listener.HttpOnNextListener;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
@@ -41,6 +42,7 @@ public class VersionResultApi extends BaseEntityReturnApi {
 
     public VersionResultApi(HttpOnNextListener listener, RxAppCompatActivity activity) {
         super(listener, activity);
+        setInterceptor(new RetrofitInterceptor());
     }
 
     public VersionResultApi(HttpOnNextListener listener, RxFragment fragment) {
