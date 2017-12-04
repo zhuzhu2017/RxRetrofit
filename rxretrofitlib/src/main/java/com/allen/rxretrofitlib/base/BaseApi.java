@@ -3,6 +3,7 @@ package com.allen.rxretrofitlib.base;
 import android.app.AlertDialog;
 
 import com.allen.rxretrofitlib.RxConstants;
+import com.allen.rxretrofitlib.RxRetrofitApp;
 import com.allen.rxretrofitlib.listener.HttpOnNextListener;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.trello.rxlifecycle.components.support.RxFragment;
@@ -25,40 +26,42 @@ public abstract class BaseApi {
     private SoftReference<RxFragment> rxFragment;
     /*请求结果回调*/
     private SoftReference<HttpOnNextListener> listener;
-    /*是否能点击取消加载框*/
+    /*是否能点击取消加载框——默认点击不可取消*/
     private boolean canCancelProgress;
-    /*是否显示加载框*/
+    /*是否显示加载框——默认显示加载框*/
     private boolean showProgress;
-    /*是否需要缓存处理*/
+    /*是否需要缓存处理——默认不需要缓存处理*/
     private boolean cacheNeeded;
-    /*基础URL*/
+    /*基础URL——不能为空*/
     private String baseUrl;
-    /*方法名称，对应baseUrl后面的方法名称*/
+    /*方法名称，对应baseUrl后面的方法名称，该变量仅用于设置缓存路径url*/
     private String methodName;
-    /*联网超时时间*/
+    /*联网超时时间——默认10s*/
     private int connTimeout = 10;   //默认10秒
     /*有网络情况下本地缓存时间默认60秒，60秒后重新请求接口并保存*/
-    private int cookieNetWorkTime = 60;
+    private int cookieNetWorkTime = 30;
     /*无网络情况下本地缓存默认30天，30天后失效，并清空本地保存的数据*/
     private int cookieNoNetWorkTime = 30 * 24 * 60 * 60;
-    /*失败后重试的次数*/
-    private int retryCount = 1;
+    /*失败后重试的次数——默认0次*/
+    private int retryCount = 0;
     /*失败后retry的延迟时间--过去对应时间后再走一次请求*/
-    private int retryDelay = 100;
+    private int retryDelay = 0;
     /*失败后retry叠加延迟--失败一次延迟请求时间叠加一次*/
-    private int retryIncreaseDelay = 10;
+    private int retryIncreaseDelay = 0;
     /*缓存URL--可手动设置*/
     private String cacheUrl;
-    /*获取网络请求来源*/
+    /*获取网络请求来源——如果不设置默认Activity请求,Fragment请求必须设置否则会出错*/
     private String requestSource;
-    /*设置网络请求拦截器*/
+    /*设置网络请求拦截器——不设置的话默认不添加自定义拦截器*/
     private Interceptor interceptor;
-    /*编码格式*/
+    /*编码格式——默认UTF-8*/
     private String charset;
-    /*自定义加载框*/
+    /*自定义加载框——不设置的话默认系统加载框*/
     private AlertDialog dialog;
-    /*返回json格式数据*/
+    /*返回json格式数据——不设置的话，默认BaseResultEntity返回*/
     private boolean isReturnJson;
+    /*网络请求错误码——供客户端自定义错误信息处理*/
+    private int errorCode;
 
     /**
      * 构造函数--RxAppCompatActivity
@@ -71,10 +74,16 @@ public abstract class BaseApi {
         setListener(listener);
         //默认显示加载框
         setShowProgress(true);
-        //默认需要缓存
-        setCacheNeeded(true);
+        //默认不需要缓存
+        setCacheNeeded(false);
+        //默认无法点击关闭加载框
+        setCanCancelProgress(false);
         //默认UTF-8编码
         setCharset(RxConstants.CHARSET);
+        //设置网络请求来源
+        setRequestSource(RxConstants.TYPE_ACTIVITY);
+        //设置基础Url
+        setBaseUrl(RxRetrofitApp.getBaseUrl());
     }
 
     /**
@@ -89,9 +98,15 @@ public abstract class BaseApi {
         //默认显示加载框
         setShowProgress(true);
         //默认需要缓存
-        setCacheNeeded(true);
+        setCacheNeeded(false);
+        //默认无法点击关闭加载框
+        setCanCancelProgress(false);
         //默认UTF-8编码
         setCharset(RxConstants.CHARSET);
+        //设置网络请求来源
+        setRequestSource(RxConstants.TYPE_ACTIVITY);
+        //设置基础Url
+        setBaseUrl(RxRetrofitApp.getBaseUrl());
     }
 
     public RxAppCompatActivity getRxAppCompatActivity() {
@@ -254,6 +269,14 @@ public abstract class BaseApi {
 
     public void setReturnJson(boolean returnJson) {
         isReturnJson = returnJson;
+    }
+
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 
     /**

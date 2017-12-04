@@ -231,7 +231,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
     private void dealError(Throwable e) {
         //触发错误回调
         if (listener != null && listener.get() != null) {
-            listener.get().onError(e);
+            listener.get().onError(e, baseApi.getErrorCode());
         }
     }
 

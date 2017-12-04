@@ -14,25 +14,18 @@ import rx.functions.Func1;
  */
 
 public abstract class BaseEntityReturnApi<T> extends BaseApi implements Func1<BaseResultEntity<T>, T> {
-
-    private HttpOnNextListener listener;
-
     public BaseEntityReturnApi(HttpOnNextListener listener, RxAppCompatActivity activity) {
         super(listener, activity);
-        this.listener = listener;
     }
 
     public BaseEntityReturnApi(HttpOnNextListener listener, RxFragment fragment) {
         super(listener, fragment);
-        this.listener = listener;
     }
 
     @Override
     public T call(BaseResultEntity<T> tBaseResultEntity) {
         if (tBaseResultEntity.getCode() != RxRetrofitApp.REQUEST_SUCCESS) {
-            if (listener != null) {
-                listener.onError(tBaseResultEntity.getCode());
-            }
+            setErrorCode(tBaseResultEntity.getCode());
             throw new HttpResultException(tBaseResultEntity.getMsg());
         }
         return tBaseResultEntity.getData();

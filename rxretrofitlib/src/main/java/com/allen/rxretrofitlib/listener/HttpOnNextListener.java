@@ -34,17 +34,10 @@ public abstract class HttpOnNextListener<T> {
     /**
      * 错误回到
      *
-     * @param e 异常
+     * @param e         异常
+     * @param errorCode 错误码——供客户端自定义错误码处理
      */
-    public void onError(Throwable e) {
-    }
-
-    /**
-     * 错误回调（需APP处理相关逻辑的异常）
-     *
-     * @param errorCode 错误码
-     */
-    public void onError(int errorCode) {
+    public void onError(Throwable e, int errorCode) {
     }
 
     /**

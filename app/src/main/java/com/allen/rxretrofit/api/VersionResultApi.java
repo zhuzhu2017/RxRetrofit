@@ -39,7 +39,6 @@ public class VersionResultApi extends BaseEntityReturnApi {
 
     public VersionResultApi(HttpOnNextListener listener, RxAppCompatActivity activity) {
         super(listener, activity);
-        setBaseUrl("http://saas.api.app.tongtongmall.test/");
     }
 
     public VersionResultApi(HttpOnNextListener listener, RxFragment fragment) {

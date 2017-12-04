@@ -51,15 +51,9 @@ public class MainActivity extends BaseActivity {
         }
 
         @Override
-        public void onError(Throwable e) {
-            super.onError(e);
-            Log.d("结果异常：", e.getMessage() + "");
-        }
-
-        @Override
-        public void onError(int errorCode) {
-            super.onError(errorCode);
-            Log.d("结果异常：", errorCode + "");
+        public void onError(Throwable e, int errorCode) {
+            super.onError(e, errorCode);
+            Log.d("结果异常：", e.getMessage() + "==errorCode==" + errorCode);
         }
 
         @Override

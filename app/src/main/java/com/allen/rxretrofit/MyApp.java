@@ -15,5 +15,6 @@ public class MyApp extends Application {
         super.onCreate();
         RxRetrofitApp.init(this, Constants.HTTP_RESUCCESS);
         RxRetrofitApp.setCacheDBName(Constants.CACHE_DB_NAME);
+        RxRetrofitApp.setBaseUrl(Constants.BASE_URL);
     }
 }

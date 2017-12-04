@@ -10,4 +10,6 @@ public class Constants {
     public static final int HTTP_RESUCCESS = 1100;
     /*网络缓存数据库名称*/
     public static final String CACHE_DB_NAME = "ttmall_cache";
+    /*网络请求基础Url*/
+    public static final String BASE_URL = "http://saas.api.app.tongtongmall.test/";
 }

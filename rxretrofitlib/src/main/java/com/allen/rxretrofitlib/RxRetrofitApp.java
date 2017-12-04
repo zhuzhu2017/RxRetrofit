@@ -17,6 +17,8 @@ public class RxRetrofitApp {
     public static int REQUEST_SUCCESS = 1100;
     /*缓存数据库名称*/
     private static String cacheDBName;
+    /*基础Url*/
+    private static String baseUrl;
 
     public static void init(Application app) {
         init(app, REQUEST_SUCCESS, false);
@@ -62,5 +64,13 @@ public class RxRetrofitApp {
 
     public static void setCacheDBName(String cacheDBName) {
         RxRetrofitApp.cacheDBName = cacheDBName;
+    }
+
+    public static String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public static void setBaseUrl(String baseUrl) {
+        RxRetrofitApp.baseUrl = baseUrl;
     }
 }
